@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <title >Chat Bot</title>
+</head>
+<body>
+<div class="js-container"> </div>
+    <script src="https://unpkg.com/supersimpledev/react.js"> </script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"> </script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"> </script>
+    <script type="text/babel">
+
+        function ChatMessage({message, sender}) {
+            // const {message, sender} = propss;
+         // destructure sender from props
+            /* if (sender === 'robot') {
+            return (
+                <div> 
+                    <img src="./public/robot.png" width="40px" />
+                    {message} 
+                </div>
+            );
+            }
+            else if (sender === 'user') {
+                return (
+                    <div> 
+                        {message} 
+                        <img src="./public/user.png" width="40px" />
+                    </div>
+                );
+            } */ 
+
+            return (
+                <div> 
+                    {sender == 'robot' && 
+                    (<img src="./public/robot.png" width="40px" />)
+                    }
+                    {message} 
+                    {sender == 'user' && 
+                    (<img src="./public/user.png" width="40px" />)
+                    }
+                </div>
+            );
+        }
+
+        function ChatInput(){
+            return (
+            <>
+            <input type="text" placeholder="Type your message..." size = '30'/>
+            <button>
+                Send
+            </button>
+            </>
+            );
+        }
+
+        function ChatMessages() {
+            const chatMessages = [
+                {message: "Hello! How can I assist you today?", sender: 'robot' , key : 'id1'},
+                {message: "Flip a coin", sender: 'user', key : 'id2'},
+                {message: "You got heads", sender: 'robot', key : 'id3'},
+                {message: "What is React?", sender: 'user', key : 'id4'},
+            ];
+
+            function SendMessage(){
+                chatMessages.push({
+                    message: "New message",
+                    sender: "user",
+                    key: crypto.randomUUID()
+                });
+                console.log(chatMessages[chatMessages.length - 1]);
+            }
+
+            return (
+            <>
+            <button onClick={SendMessage}>
+                Send Message
+            </button>
+            {chatMessages.map((chatMessage) => {
+                    return (
+                        <ChatMessage 
+                            message={chatMessage.message} 
+                            sender={chatMessage.sender} 
+                            key={chatMessage.key}
+                        />
+                    );
+                })
+            }
+            </>);
+        }
+
+
+        function App() {
+
+            return (
+                <>
+                    <ChatInput />
+                    <ChatMessages />
+                </>
+            );
+        }
+      
+        const container = document.querySelector('.js-container');
+        ReactDOM.createRoot(container).render(<App />);
+    </script>
+</body>
+</html>
