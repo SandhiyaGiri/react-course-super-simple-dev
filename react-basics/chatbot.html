@@ -2,6 +2,61 @@
 <html >
 <head>
     <title >Chat Bot</title>
+    <style>
+        body{
+            font-family: Arial;
+        }
+        .send-button{
+            background-color : green;
+            color: white;
+            padding: 12px 20px;
+            margin-left: 10px;
+            font-size: 15px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .input-box{
+            border-width: 1px;
+            border-radius: 10px;
+            font-size: 15px;
+            padding: 12px 20px;
+            flex-grow: 1;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+
+        .app-container{
+            flex: grow;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chat-input-user{
+            display: flex;
+            justify-content: end;
+            align-items: start;
+        }
+
+        .chat-input-robot{
+            display: flex;
+            justify-content: start;
+            align-items: start;
+        }
+
+        .chat-message-text{
+            background-color: rgb(196, 196, 196);
+            border-radius: 10px;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-top: 5px;
+            padding: 12px 20px;
+            max-width: 300px;
+
+        }
+    </style>
 </head>
 <body>
 <div class="js-container"> </div>
@@ -13,11 +68,17 @@
 
         function ChatMessage({message, sender}) {
             return (
-                <div> 
+                <div className={
+                        sender=='user' 
+                        ? 'chat-input-user'
+                        : 'chat-input-robot'
+                    }> 
                     {sender == 'robot' && 
                     (<img src="./public/robot.png" width="40px" />)
                     }
-                    {message} 
+                    <div className='chat-message-text'>
+                        {message} 
+                    </ div>
                     {sender == 'user' && 
                     (<img src="./public/user.png" width="40px" />)
                     }
@@ -52,8 +113,9 @@
             <input  onChange = {handleChange} 
                     value={inputText}
                     placeholder="Type your message..." 
-                    size = '30'/>
-            <button onClick = {sendMessage}>
+                    size = '30'
+                    className = "input-box"/>
+            <button onClick = {sendMessage} className = 'send-button'>
                 Send
             </button>
             </>
@@ -61,8 +123,16 @@
         }
 
         function ChatMessages({chatMessages}) {
+
+            const chatMessagesRef = React.useRef(null);
+            React.useEffect(()=>{
+                const containerElem = chatMessagesRef.current;
+                if (containerElem){
+                containerElem.scrollTop = containerElem.scrollHeight;
+            }
+            }, [chatMessages]);
             return (
-            <>
+        <div className = 'chat-messages-container' ref = {chatMessagesRef}>
             {chatMessages.map((chatMessage) => {
                     return (
                         <ChatMessage 
@@ -73,7 +143,7 @@
                     );
                 })
             }
-            </>);
+            </div>);
         }
 
 
@@ -86,13 +156,13 @@
             ]);
 
             return (
-                <>
+                <div className = "app-container">
                     <ChatInput 
                         chatMessages = {chatMessages}
                         setChatMessages = {setChatMessages}
                     />
                     <ChatMessages chatMessages = {chatMessages} />
-                </>
+                </div>
             );
         }
       
