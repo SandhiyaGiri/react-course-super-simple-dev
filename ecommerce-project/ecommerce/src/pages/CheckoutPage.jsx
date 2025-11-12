@@ -1,5 +1,6 @@
 import './CheckoutPage.css'
 import './checkout-header.css'
+import { Link } from 'react-router'
 
 export default function CheckoutPage() {
     return (
@@ -8,10 +9,10 @@ export default function CheckoutPage() {
             <div className="checkout-header">
                 <div className="header-content">
                     <div className="checkout-header-left-section">
-                        <a href="/">
+                        <Link to="/">
                             <img className="logo" src="images/logo.png" />
                             <img className="mobile-logo" src="images/mobile-logo.png" />
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="checkout-header-middle-section">
@@ -64,7 +65,7 @@ export default function CheckoutPage() {
                                         Choose a delivery option:
                                     </div>
                                     <div className="delivery-option">
-                                        <input type="radio" checked
+                                        <input type="radio" defaultChecked
                                             className="delivery-option-input"
                                             name="delivery-option-1" />
                                         <div>
@@ -153,7 +154,7 @@ export default function CheckoutPage() {
                                         </div>
                                     </div>
                                     <div className="delivery-option">
-                                        <input type="radio" checked className="delivery-option-input"
+                                        <input type="radio" defaultChecked className="delivery-option-input"
                                             name="delivery-option-2" />
                                         <div>
                                             <div className="delivery-option-date">
