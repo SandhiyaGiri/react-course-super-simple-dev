@@ -1,34 +1,39 @@
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
+import { useState, createContext, useContext} from "react";
 
-function Modal({ isOpen, onClose, children }) {
-  if (!isOpen) return null;
+export default function App(){
+    const userContext = createContext();
+    function Component1(){
+        const [user, setUser] = useState("Sandhiya");
+        
+        return(
+            <userContext.Provider value={user}>
+                <h1>Component 1</h1>
+                <p> User of component 1 : <b> {user } </b></p>
+                <Component2 user={user}/>
+            </userContext.Provider>
+        )
+    }
 
-  return createPortal(
-    <div>
-      <div>
-        {children}
-        <button onClick={onClose}>Close</button>
-      </div>
-    </div>,
-    document.body
-  );
-}
+    function Component2(){
+        return(
+            <>
+                <h1>Component 2</h1>
+                <Component3 />
+            </>
+        )
+    }
 
-export default function MyApp() {
-  const [isOpen, setIsOpen] = useState(false);
+    function Component3(){
+        const user = useContext(userContext);
+        return(
+            <>
+                <h1>Component 3</h1>
+                <p>  {user }</p>
+            </>
+        )
+    }
 
-  return (
-    <div>
-      <h1>My App</h1>
-      <button onClick={() => setIsOpen(true)}>
-        Open Modal
-      </button>
-
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <h2>Modal Content</h2>
-        <p>This content is rendered outside the App component!</p>
-      </Modal>
-    </div>
-  );
+    return (
+        <Component1 />
+    )
 }
