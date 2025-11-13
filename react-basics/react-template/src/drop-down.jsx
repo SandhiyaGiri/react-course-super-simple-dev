@@ -22,7 +22,8 @@ export default function App(){
   return(
     <>
     <label>
-
+      State:
+      {" "}
       <select onChange={handleState} value={state} > 
       <option> -- Select state -- </option>
       {Object.keys(data).map((state) => (
@@ -32,6 +33,8 @@ export default function App(){
     </label>
 
     <lable> 
+    City:
+    {" "}
       
       <select onChange={handleCity} disabled={!state} value={city}>
         <option> -- Select City -- </option>
